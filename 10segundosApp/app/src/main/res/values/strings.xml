@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">10segundos</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="application_name">10SegundoS</string>
+    <string name="username">Username</string>
+    <string name="password">Contraseña</string>
+    <string name="login">LOGIN NOW</string>
+    <string name="msg_login">¿Aún no tienes cuenta?</string>
+    <string name="registrate">SIGN UP</string>
+    <string name="welcome_register">Regístrate para empezar.</string>
+    <string name="hola">Hola!</string>
+    <string name="fullname">Nombre Completo</string>
+    <string name="confirm_password">Confirmar Contaseña</string>
+    <string name="advice_username">Incluya su username</string>
+    <string name="advice_empty_fullname">Incluya su nombre</string>
+    <string name="advice_empty_password">Indique su contraseña</string>
+    <string name="password_doesnot_match">Contraseña no coincide</string>
+    <string name="username_already_exists">Elija otro username</string>
+</resources>
