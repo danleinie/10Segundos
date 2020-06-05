@@ -73,8 +73,8 @@ class WebSecurityConfiguration(
                     .antMatchers( "/h2-console/**").permitAll()
                     .antMatchers(POST, "/auth/login", "/user/").permitAll()
                     //.antMatchers(GET, "/user/todos").permitAll()
-                    //.antMatchers(PUT, "/notas/**").hasAnyRole("ADMIN","USER")
-                    .antMatchers( "/questions/**","/user/**","/files/**").permitAll()
+                    .antMatchers("/questions/**","/user/**","/files/**").hasAnyRole("ADMIN","USER")
+                    //.antMatchers( "/questions/**","/user/**","/files/**").permitAll()
                     .anyRequest().hasRole("ADMIN")
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)

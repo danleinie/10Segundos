@@ -4,6 +4,7 @@ import com.danielleiva.segundos.segundos.dto.UserDto
 import com.danielleiva.segundos.segundos.dto.toUserDto
 import com.danielleiva.segundos.segundos.models.User
 import com.danielleiva.segundos.segundos.security.jwt.JwtTokenProvider
+import com.danielleiva.segundos.segundos.upload.ImgurStorageServiceImpl
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -19,7 +20,8 @@ import javax.validation.constraints.NotBlank
 @RestController
 class AuthenticationController(
         private val authenticationManager: AuthenticationManager,
-        private val jwtTokenProvider: JwtTokenProvider
+        private val jwtTokenProvider: JwtTokenProvider,
+        private val imgurStorageServiceImpl: ImgurStorageServiceImpl
 ) {
 
     @PostMapping("/auth/login")
@@ -41,7 +43,11 @@ class AuthenticationController(
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/user/me")
-    fun me(@AuthenticationPrincipal user : User) = user.toUserDto()
+    fun me(@AuthenticationPrincipal user : User) : UserDto {
+        var userToSend = user.toUserDto()
+        userToSend.img = userToSend.img?.let { imgurStorageServiceImpl.getUrl(it).get().toString() }
+        return userToSend
+    }
 
 }
 

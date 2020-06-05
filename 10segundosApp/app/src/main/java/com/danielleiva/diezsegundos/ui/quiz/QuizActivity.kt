@@ -3,6 +3,10 @@ package com.danielleiva.diezsegundos.ui.quiz
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.app.Dialog
+import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -10,13 +14,12 @@ import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -24,11 +27,14 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeTransition
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.request.transition.TransitionFactory
 import com.danielleiva.diezsegundos.R
+import com.danielleiva.diezsegundos.common.Constantes
 import com.danielleiva.diezsegundos.common.MyApp
 import com.danielleiva.diezsegundos.common.Resource
 import com.danielleiva.diezsegundos.models.requests.RandomQuestionDto
 import com.danielleiva.diezsegundos.models.responses.Question
+import com.danielleiva.diezsegundos.models.responses.User
 import com.danielleiva.diezsegundos.viewmodels.QuestionViewModel
+import com.danielleiva.diezsegundos.viewmodels.UserViewModel
 import com.google.gson.Gson
 import com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -39,18 +45,24 @@ import javax.inject.Inject
 class QuizActivity : AppCompatActivity() {
 
     @Inject lateinit var questionViewModel: QuestionViewModel
+    @Inject lateinit var userViewModel: UserViewModel
+    lateinit var dialog : Dialog
     lateinit var progressBar: ProgressBar
     lateinit var objectAnimator: ObjectAnimator
     lateinit var countdown : TextView
     lateinit var countdownPregunta : TextView
     lateinit var textEnunciado : TextView
     lateinit var contadorPregunta : TextView
+    lateinit var nombreUser : TextView
+    lateinit var puntuacionUser : TextView
+    lateinit var buttonFinalizar : Button
     var contadorPreguntasAcertadas = 1
     lateinit var imgPregunta : ImageView
     lateinit var buttonTrue : ImageView
     lateinit var buttonFalse : ImageView
     lateinit var iconTrue : ImageView
     lateinit var iconFalse : ImageView
+    lateinit var imgPerfil : ImageView
     lateinit var backgroundCountdownQuiz : ImageView
     lateinit var cardView: CardView
     lateinit var animFadeIn: Animation
@@ -60,6 +72,7 @@ class QuizActivity : AppCompatActivity() {
     lateinit var questionEnPantalla : Question
     lateinit var siquienteQuestion : Question
     var listaIdsPreguntas = ArrayList<String>()
+    lateinit var userLogeado : User
 
     lateinit var progressBarRedondeado : RoundedHorizontalProgressBar
 
@@ -74,12 +87,14 @@ class QuizActivity : AppCompatActivity() {
         cardView.visibility = View.INVISIBLE
         backgroundCountdownQuiz.visibility = View.VISIBLE
 
-        //var randomQuestionDto = RandomQuestionDto(arrayListOf("a4e22c85-3726-45e7-87e0-964e61e749f2","31c1a0e3-a3d2-407d-9f1d-59426c892e02","aa5a81c1-84c6-401d-8ba6-eabde86f5349"))
+        userViewModel.getUserLogeado().observeForever(Observer {
+            if (it is Resource.Success) userLogeado = it.data!!
+        })
 
         getNextQuestion(true)
 
         //Cuenta atrás para iniciar el juego
-        object : CountDownTimer(2000, 100) {
+        object : CountDownTimer(4000, 100) {
             override fun onTick(millisUntilFinished: Long) {
                 if ((millisUntilFinished / 1000).toInt() == 0) countdown.text = "Start!"
                 else countdown.text = "${millisUntilFinished / 1000}"
@@ -130,7 +145,7 @@ class QuizActivity : AppCompatActivity() {
                 progressBar.progress = ((millisUntilFinished/100).toInt()-100)*(-1)
             }
             override fun onFinish() {
-
+                loadAlertResult()
             }
         }.start()
 
@@ -165,12 +180,12 @@ class QuizActivity : AppCompatActivity() {
 
             }
             else{
-                //TODO: Hacer que pasa si falla
                 Glide
                     .with(MyApp.instance)
                     .load(R.drawable.ic_like_red)
                     .transition(DrawableTransitionOptions.with(DrawableAlwaysCrossFadeFactory()))
                     .into(iconTrue)
+                loadAlertResult()
             }
 
         })
@@ -178,12 +193,12 @@ class QuizActivity : AppCompatActivity() {
         buttonFalse.setOnClickListener(View.OnClickListener {
             timer.cancel()
             if (questionEnPantalla.respuesta){
-                //TODO: Hacer que pasa si falla
                 Glide
                     .with(MyApp.instance)
                     .load(R.drawable.ic_dislike_red)
                     .transition(DrawableTransitionOptions.with(DrawableAlwaysCrossFadeFactory()))
                     .into(iconFalse)
+                loadAlertResult()
             }
             else{
                 Glide
@@ -210,13 +225,16 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun loadUiQuestion(question: Question, isFirstTime: Boolean) {
-
         //Mini break entre pregunta y pregunta
         if (!isFirstTime){
+            buttonTrue.isClickable = false
+            buttonFalse.isClickable = false
             object : CountDownTimer(500, 100) {
                 override fun onTick(millisUntilFinished: Long) {
                 }
                 override fun onFinish() {
+                    buttonTrue.isClickable = true
+                    buttonFalse.isClickable = true
                     Glide
                         .with(MyApp.instance)
                         .load(question.img)
@@ -257,7 +275,41 @@ class QuizActivity : AppCompatActivity() {
         getNextQuestion(false)
     }
 
+    private fun loadAlertResult(){
+        dialog.setContentView(R.layout.dialog_result_quiz)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        imgPerfil = dialog.findViewById(R.id.imgPerfilResult)
+        nombreUser = dialog.findViewById(R.id.usernameResult)
+        puntuacionUser = dialog.findViewById(R.id.puntuacionResult)
+        buttonFinalizar = dialog.findViewById(R.id.buttonFinalizarQuiz)
+
+        nombreUser.text = userLogeado.username
+        puntuacionUser.text = (contadorPreguntasAcertadas-1).toString()
+
+        if (userLogeado.img!=null) imgPerfil.load(userLogeado.img){
+            transformations(CircleCropTransformation(), CircleCropTransformation())
+        }
+        else imgPerfil.load(Constantes.getRandomAvatar(userLogeado.username)){
+            transformations(CircleCropTransformation(), CircleCropTransformation())
+        }
+
+        dialog.show()
+
+        dialog.setOnCancelListener(DialogInterface.OnCancelListener {
+            dialog.dismiss()
+            this.finish()
+        })
+
+        buttonFinalizar.setOnClickListener{
+            dialog.dismiss()
+            this.finish()
+        }
+
+        userViewModel.editPuntuacion(contadorPreguntasAcertadas-1)
+    }
+
     private fun loadfIndsById() {
+        dialog = Dialog(this)
         countdown = findViewById(R.id.textCountdown)
         countdownPregunta = findViewById(R.id.countdownPregunta)
         backgroundCountdownQuiz = findViewById(R.id.backgroundCountdownQuiz)
@@ -273,6 +325,11 @@ class QuizActivity : AppCompatActivity() {
         //progressBarRedondeado = findViewById(R.id.progress_bar_1)
     }
 
+    override fun onBackPressed() {
+        timer.cancel()
+        super.onBackPressed()
+    }
+
 }
 
 class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
@@ -281,18 +338,3 @@ class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
         return resourceTransition
     }
 }
-/*if (condicion){
-                condicion = false
-                Glide
-                    .with(MyApp.instance)
-                    .load(R.drawable.ic_like)
-                    .transition(DrawableTransitionOptions.with(DrawableAlwaysCrossFadeFactory()))
-                    .into(iconTrue)
-            }else{
-                condicion = true
-                Glide
-                    .with(MyApp.instance)
-                    .load(R.drawable.ic_like_green)
-                    .transition(DrawableTransitionOptions.with(DrawableAlwaysCrossFadeFactory()))
-                    .into(iconTrue)
-            }*/

@@ -1,0 +1,363 @@
+{
+	"info": {
+		"_postman_id": "c6f10e5a-894c-4c66-8537-35e20e6a93cf",
+		"name": "10Segundos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://app-10segundos.herokuapp.com/questions/",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiOTgwNDQ2OS0zY2YzLTQ0OTYtYjc4MS02ZTNjZTY0MDNlZDEiLCJleHAiOjE1OTIyMzYwNjQsImlhdCI6MTU5MTM3MjA2NCwiZnVsbG5hbWUiOiJEZWluaWVsIExlaXZhIiwicm9sZXMiOiJVU0VSIn0.ly5BoLzii-XOIdzKwsTaf9OPj8ozS5HVRhyQ6kSKLw9gDgmxaGJFbgzGkmF9LS_JY-6CWLEEJuLiGXBZTm-czg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/questions/",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"questions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/auth/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"irenelop78\",\n\t\"password\":\"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/auth/login",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/user/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "miguelcampos00",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/xLeii/Desktop/10Segundos/imagenes/segundoUser.jpg"
+						},
+						{
+							"key": "fullname",
+							"value": "Miguel Campos",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "password2",
+							"value": "1234",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/user/",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/files/{{id}}",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/files/JhZIMId",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"files",
+						"JhZIMId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/user/",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiOTgwNDQ2OS0zY2YzLTQ0OTYtYjc4MS02ZTNjZTY0MDNlZDEiLCJleHAiOjE1OTIyMjY3ODgsImlhdCI6MTU5MTM2Mjc4OCwiZnVsbG5hbWUiOiJEZWluaWVsIExlaXZhIiwicm9sZXMiOiJVU0VSIn0.c6mauTEhqxYchDQw44ZSjOLx27VVgc1VZrXW2nzr4z1nYEIH7OsAYsR4FYuvdqr52zSSHgIZB7K2b4AUvD71TQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/user/",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/user/me",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MTZjMjY5Mi0yY2IyLTQwMDAtYTQ4NC1hZWMwN2NiMGM1ODMiLCJleHAiOjE1OTEyMDY3ODgsImlhdCI6MTU5MDM0Mjc4OCwiZnVsbG5hbWUiOiJEYW5pZWwgTGVpdmEiLCJyb2xlcyI6IlVTRVIifQ.qYO7Gi_ke7M7X8Aio3SzP562oOJDdqMo-PiqR8FoxXa4u2P83zCDacZ5uvk-WKimGkfijbcPwqloMmsbmYCmoA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/user/me",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/questions/",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiOTgwNDQ2OS0zY2YzLTQ0OTYtYjc4MS02ZTNjZTY0MDNlZDEiLCJleHAiOjE1OTIyMzUyOTEsImlhdCI6MTU5MTM3MTI5MSwiZnVsbG5hbWUiOiJEZWluaWVsIExlaXZhIiwicm9sZXMiOiJVU0VSIn0.Y4YMEuM8lAHVw7uOsTFwzZskAYEWJdFjl8QZpBlUjVdagX4_IRe744CCFh7VcDnSouaiQFDutt8uu4uOKPVXlA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "question",
+							"type": "file",
+							"src": "/C:/Users/xLeii/Desktop/questionDto.json"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/xLeii/Desktop/10Segundos/imagenes/preguntas/quimica.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/questions/",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"questions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/questions/random",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiOTgwNDQ2OS0zY2YzLTQ0OTYtYjc4MS02ZTNjZTY0MDNlZDEiLCJleHAiOjE1OTIyMzYwNjQsImlhdCI6MTU5MTM3MjA2NCwiZnVsbG5hbWUiOiJEZWluaWVsIExlaXZhIiwicm9sZXMiOiJVU0VSIn0.ly5BoLzii-XOIdzKwsTaf9OPj8ozS5HVRhyQ6kSKLw9gDgmxaGJFbgzGkmF9LS_JY-6CWLEEJuLiGXBZTm-czg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "questions",
+							"type": "file",
+							"src": "/C:/Users/xLeii/Desktop/randomQuestionDto.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/questions/random",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"questions",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/user/editpuntuacion/10",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlMGQ3NGMxMC0xYmY4LTQ2ZTUtYjBiNS0wMDI2ZTEyZDk3MzkiLCJleHAiOjE1OTIyMzc5MzksImlhdCI6MTU5MTM3MzkzOSwiZnVsbG5hbWUiOiJJcmVuZSBMw7NwZXoiLCJyb2xlcyI6IlVTRVIifQ.WwPZPZjDiJnpbBkoEj-hnNDX6CQhhK2diRPPBZvc3Qko5FF73S4crmvP-l5vRXMjgya9yJjFOvEf0iNVIVLT4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/user/editpuntuacion/8",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"editpuntuacion",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://app-10segundos.herokuapp.com/questions/871540f0-afeb-48fb-95de-eda0758eb01c",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiOTgwNDQ2OS0zY2YzLTQ0OTYtYjc4MS02ZTNjZTY0MDNlZDEiLCJleHAiOjE1OTIyMzYwNjQsImlhdCI6MTU5MTM3MjA2NCwiZnVsbG5hbWUiOiJEZWluaWVsIExlaXZhIiwicm9sZXMiOiJVU0VSIn0.ly5BoLzii-XOIdzKwsTaf9OPj8ozS5HVRhyQ6kSKLw9gDgmxaGJFbgzGkmF9LS_JY-6CWLEEJuLiGXBZTm-czg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://app-10segundos.herokuapp.com/questions/871540f0-afeb-48fb-95de-eda0758eb01c",
+					"protocol": "https",
+					"host": [
+						"app-10segundos",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"questions",
+						"871540f0-afeb-48fb-95de-eda0758eb01c"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

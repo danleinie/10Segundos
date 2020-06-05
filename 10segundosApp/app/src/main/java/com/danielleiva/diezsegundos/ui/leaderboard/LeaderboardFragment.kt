@@ -54,6 +54,7 @@ class LeaderboardFragment : Fragment() {
     private var columnCount = 1
     lateinit var recyclerView: RecyclerView
     var listaUsuario: ArrayList<User> = ArrayList()
+    var listaUsuarioSinTop3: ArrayList<User> = ArrayList()
     var top3Usuarios : ArrayList<User> = ArrayList()
     lateinit var myAdapter: MyLeaderboardRecyclerViewAdapter
     var contadorDePeticionesRealizadas = 0
@@ -71,14 +72,14 @@ class LeaderboardFragment : Fragment() {
         //recyclerView.isNestedScrollingEnabled = false
 
         // Set the adapter
-        myAdapter = MyLeaderboardRecyclerViewAdapter(listaUsuario,userViewModel)
+        myAdapter = MyLeaderboardRecyclerViewAdapter(listaUsuarioSinTop3,userViewModel)
             with(recyclerView) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
                 //myAdapter.setHasStableIds(true)
-                setItemViewCacheSize(20)
+                setItemViewCacheSize(50)
                 adapter = myAdapter
         }
 
@@ -116,7 +117,11 @@ class LeaderboardFragment : Fragment() {
                     imgUserLoeado = response.data?.img
 
                     imgUserLoeado?.let {
-                        userViewModel.getImgById(it).observeForever(Observer {img ->
+                        showUI("img de user logeado")
+                        imgLogeado.load(it){
+                            transformations(CircleCropTransformation())
+                        }
+                        /*userViewModel.getImgById(it).observeForever(Observer {img ->
 
                             when(img){
                                 is Resource.Success -> {
@@ -136,7 +141,7 @@ class LeaderboardFragment : Fragment() {
                                     }
                                 }
                             }
-                        })
+                        })*/
                     }?: run {
                         showUI("img de user logeado")
                         imgLogeado.load(response.data?.username?.let { Constantes.getRandomAvatar(it) }){
@@ -159,6 +164,10 @@ class LeaderboardFragment : Fragment() {
                     showUI("find all")
                     response.data?.let {
                         listaUsuario.addAll(it)
+                        listaUsuarioSinTop3.addAll(it)
+                        listaUsuarioSinTop3.remove(it[0])
+                        listaUsuarioSinTop3.remove(it[1])
+                        listaUsuarioSinTop3.remove(it[2])
                         searchPosicionUserLogeado()
                         top3Usuarios.add(it[0])
                         top3Usuarios.add(it[1])
@@ -199,7 +208,9 @@ class LeaderboardFragment : Fragment() {
         puntuacionTercero.text = top3Usuarios.get(2).maxPuntuacion.toString()
 
         top3Usuarios.get(0).img?.let {
-            userViewModel.getImgById(it).observeForever(Observer {response ->
+            primero.load(it)
+            showUI("img del primero")
+            /*userViewModel.getImgById(it).observeForever(Observer {response ->
                 when(response){
                     is Resource.Success -> {
                         val bmp = BitmapFactory.decodeStream(response.data?.byteStream())
@@ -214,14 +225,16 @@ class LeaderboardFragment : Fragment() {
                         primero.load(Constantes.getRandomAvatar(top3Usuarios.get(0).username))
                     }
                 }
-            })
+            })*/
         }?: run{
             showUI("img del primero")
             primero.load(Constantes.getRandomAvatar(top3Usuarios.get(0).username))
         }
 
         top3Usuarios.get(1).img?.let {
-            userViewModel.getImgById(it).observeForever(Observer {response ->
+            showUI("img del segundo")
+            segundo.load(it)
+            /*userViewModel.getImgById(it).observeForever(Observer {response ->
                 when(response){
                     is Resource.Success -> {
                         showUI("img del segundo")
@@ -236,14 +249,16 @@ class LeaderboardFragment : Fragment() {
                         segundo.load(Constantes.getRandomAvatar(top3Usuarios.get(1).username))
                     }
                 }
-            })
+            })*/
         }?: run {
             showUI("img del segundo")
             segundo.load(Constantes.getRandomAvatar(top3Usuarios.get(1).username))
         }
 
         top3Usuarios.get(2).img?.let {
-            userViewModel.getImgById(it).observeForever(Observer {response ->
+            showUI("img del tercero")
+            tercero.load(it)
+            /*userViewModel.getImgById(it).observeForever(Observer {response ->
                 when(response){
                     is Resource.Success -> {
                         showUI("img del tercero")
@@ -263,7 +278,7 @@ class LeaderboardFragment : Fragment() {
                     }
                 }
 
-            })
+            })*/
         }?: run {
             showUI("img del tercero")
             tercero.load(Constantes.getRandomAvatar(top3Usuarios.get(2).username))

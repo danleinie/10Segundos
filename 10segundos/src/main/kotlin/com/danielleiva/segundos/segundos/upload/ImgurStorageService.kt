@@ -4,9 +4,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.server.ResponseStatusException
 import java.net.URI
+import java.net.URL
 import java.util.*
 
 
@@ -55,6 +58,19 @@ class ImgurStorageServiceImpl(
     override fun delete(deletehash: String) : Unit {
         logger.debug("Eliminando la imagen $deletehash")
         imgurService.delete(deletehash)
+    }
+
+    fun getUrl(id : String) : Optional<URL> {
+        var resource: Optional<MediaTypeUrlResource>
+        try {
+            resource = loadAsResource(id)
+            if (resource.isPresent) {
+                return Optional.of(resource.get().url)
+            }
+            return Optional.empty()
+        }catch (ex: ImgurImageNotFoundException) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Imagen no encontrada")
+        }
     }
 
 

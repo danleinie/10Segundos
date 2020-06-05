@@ -18,7 +18,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/questions")
-class QuestionController(val questionRepository: QuestionRepository, val questionService: QuestionService, val imgurFilesController: ImgurFilesController) {
+class QuestionController(val questionRepository: QuestionRepository, val questionService: QuestionService, val imgurStorageServiceImpl: ImgurStorageServiceImpl) {
 
     @GetMapping("/")
     fun getAll():List<QuestionDto>{
@@ -48,7 +48,7 @@ class QuestionController(val questionRepository: QuestionRepository, val questio
             getOneRandom(randomQuestionDto)
         }
         else {
-            questionFound.img = questionFound.img?.let { imgurFilesController.getUrl(it).get().toString() }
+            questionFound.img = questionFound.img?.let { imgurStorageServiceImpl.getUrl(it).get().toString() }
             return questionFound
         }
 

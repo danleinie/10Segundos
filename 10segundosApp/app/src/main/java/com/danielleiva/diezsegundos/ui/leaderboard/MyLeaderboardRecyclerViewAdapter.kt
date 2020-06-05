@@ -45,13 +45,19 @@ class MyLeaderboardRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.posicion.text = (position+1).toString()
+        holder.posicion.text = (position+4).toString()
         holder.fullname.text = item.fullName
         holder.username.text = "@${item.username}"
         holder.puntuacion.text = item.maxPuntuacion.toString()
 
         item.img?.let {
-            userViewModel.getImgById(it).observeForever(Observer{ response ->
+            Glide
+                .with(MyApp.instance)
+                .load(item.img)
+                .centerCrop()
+                .circleCrop()
+                .into(holder.imgUser)
+            /*userViewModel.getImgById(it).observeForever(Observer{ response ->
                 when(response){
                     is Resource.Success -> {
                         val bmp = BitmapFactory.decodeStream(response.data?.byteStream())
@@ -79,7 +85,7 @@ class MyLeaderboardRecyclerViewAdapter(
                         }
                     }
                 }
-            })
+            })*/
         }
 
         if(item.img == null) holder.imgUser.load(Constantes.getRandomAvatar(item.username)){transformations(CircleCropTransformation())}

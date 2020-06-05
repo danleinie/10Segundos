@@ -113,7 +113,7 @@ class RegisterActivity : AppCompatActivity() {
                         Observer {
                             when(it){
                                 is Resource.Success -> {
-                                    startActivity(Intent(this,LoginActivity::class.java))
+                                    finish()
                                 }
                                 is Resource.Loading ->{
                                     progressBar.visibility = View.VISIBLE

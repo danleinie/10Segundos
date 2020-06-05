@@ -33,8 +33,8 @@ class SliderAdapter : PagerAdapter {
     )
 
     var slide_content = arrayListOf(
-        "Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt."
+        "10Segundos es un juego de preguntas de verdadero o falso, no hay límite pero cuando falles una estarás acabado",
+        "Compite contra tus amigos o los mejores jugadores en nuestra clasificación ¡Acaba con ellos!"
     )
 
 

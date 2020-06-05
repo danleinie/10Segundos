@@ -30,8 +30,8 @@ class UserService(
                         }
                     }
                     val userToSave = User(username, encoder.encode(password), fullName, "USER")
-                    val rnds = (0..25).random()
-                    userToSave.maximaPuntuacion = rnds
+                    //val rnds = (0..25).random()
+                    //userToSave.maximaPuntuacion = rnds
                     userToSave.img = imageAttribute.orElse(null)
                     repo.save(userToSave)
                 }

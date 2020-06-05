@@ -76,28 +76,15 @@ class UserViewModel @Inject constructor(var userRepository: UserRepository): Vie
         return data
     }
 
-    fun handleUserResponse(response: Response<List<User>>): Resource<List<UserPhoto>>? {
-        if (response.isSuccessful){
-            response.body()?.let {
-                var usuariosPhoto = ArrayList<UserPhoto>()
-                for(usuario in it) {
-                    viewModelScope.launch {
-                        val responseImgUrl = userRepository.getImgById(usuario.id)
-                        if(responseImgUrl.isSuccessful) {
-                            Log.i("aquiii","aquii")
-                            val bmp =
-                                BitmapFactory.decodeStream(responseImgUrl.body()?.byteStream())
-                            usuariosPhoto.add(UserPhoto(usuario, bmp))
-                        } else {
-                            usuariosPhoto.add((UserPhoto(usuario, null)))
-                        }
-                    }
-                }
+    fun editPuntuacion(puntuacion : Int) : MutableLiveData<Resource<User>>{
+        var data : MutableLiveData<Resource<User>> = MutableLiveData()
 
-                return Resource.Success(usuariosPhoto)
-            }
+        viewModelScope.launch {
+            data.value = Resource.Loading()
+            val response = userRepository.editPuntuacion(puntuacion)
+            data.value = handleLoginResponse(response)
         }
-        return Resource.Error(response.code().toString())
+        return data
     }
 
     fun <T: Any> handleLoginResponse(response: Response<T>): Resource<T>? {

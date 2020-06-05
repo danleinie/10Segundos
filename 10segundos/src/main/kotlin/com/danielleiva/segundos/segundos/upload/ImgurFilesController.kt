@@ -34,18 +34,5 @@ class ImgurFilesController(
 
     }
 
-    fun getUrl(id : String) : Optional<URL> {
-        var resource: Optional<MediaTypeUrlResource>
-        try {
-            resource = imgurStorageService.loadAsResource(id)
-            if (resource.isPresent) {
-                return Optional.of(resource.get().url)
-            }
-            return Optional.empty()
-        }catch (ex: ImgurImageNotFoundException) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Imagen no encontrada")
-        }
-    }
-
 }
 

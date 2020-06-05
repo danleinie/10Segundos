@@ -29,4 +29,5 @@ class UserRepository @Inject constructor(var userService: UserService) {
 
     suspend fun signUp(file : MultipartBody.Part?, username : RequestBody, fullname : RequestBody, password : RequestBody, password2: RequestBody) = userService.signUp(file, username, fullname, password, password2)
 
+    suspend fun editPuntuacion(puntuacion : Int) = userService.editPuntuacion(puntuacion)
 }

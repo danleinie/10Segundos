@@ -25,6 +25,9 @@ interface UserService {
     @GET("user/me")
     suspend fun getUserLogeado() : Response<User>
 
+    @PUT("user/editpuntuacion/{puntuacion}")
+    suspend fun editPuntuacion(@Path("puntuacion") puntuacion : Int) : Response<User>
+
     @Multipart
     @POST("user/")
     suspend fun signUp(@Part file : MultipartBody.Part?,

@@ -18,4 +18,7 @@
     <string name="advice_empty_password">Indique su contraseña</string>
     <string name="password_doesnot_match">Contraseña no coincide</string>
     <string name="username_already_exists">Elija otro username</string>
+    <string name="finalizado">Finalizado</string>
+    <string name="tu_resultado">Tu resultado</string>
+    <string name="button_finalizar">finalizar</string>
 </resources>
